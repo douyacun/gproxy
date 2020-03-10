@@ -88,7 +88,7 @@ func (*_proxy) Request(ctx *gin.Context) {
 		ctx.JSON(500, err.Error())
 		return
 	}
-	logger.Info("request: \nmethod: %s\nurl: %s\nheader: %v", b.Url, b.Method, b.Body)
+	logger.Infof("request: \nmethod: %s\nurl: %s\nheader: %v\nbody: %s", b.Url, b.Method, b.Header, b.Body)
 	for k, v := range b.Header {
 		req.Header.Set(k, v)
 	}
