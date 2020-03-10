@@ -1,4 +1,4 @@
-module dyc
+module gproxy
 
 go 1.12
 
