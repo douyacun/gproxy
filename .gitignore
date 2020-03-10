@@ -1,0 +1,6 @@
+.idea/
+*/.DS_Store
+.DS_Store
+bin/
+storage/douyacun.pid
+/configs/douyacun.yml

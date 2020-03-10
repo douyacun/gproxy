@@ -1,0 +1,10 @@
+[server]
+port=:9003
+
+[path]
+pid_file=/Users/liuning/Documents/gitlab/api.douyacun.com/storage/douyacun.pid
+log_file=/Users/liuning/Documents/gitlab/api.douyacun.com/storage/logs/douyacun.log
+image_dir=/Users/liuning/Documents/gitlab/api.douyacun.com/storage/images/blog
+
+[elasticsearch]
+address=http://douyacun.com:9200

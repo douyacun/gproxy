@@ -1,0 +1,9 @@
+[server]
+port=:9003
+
+[path]
+log_file=/data/web/api.douyacun.com/storage/logs/douyacun.log
+image_dir=/data/web/images/blog
+
+[elasticsearch]
+address=http://localhost:9200
