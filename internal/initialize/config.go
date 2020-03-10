@@ -1,9 +1,9 @@
 package initialize
 
 import (
-	"dyc/internal/logger"
 	"github.com/gin-gonic/gin"
 	ini "gopkg.in/ini.v1"
+	"gproxy/internal/logger"
 	"log"
 	"os"
 	"strings"
@@ -54,6 +54,6 @@ func GetKey(key string) *ini.Key {
 	return Config.Section(section).Key(keyStr)
 }
 
-func GetLogFD() *os.File  {
+func GetLogFD() *os.File {
 	return logFd
 }

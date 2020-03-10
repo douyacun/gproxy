@@ -1,16 +1,16 @@
 package db
 
 import (
-	"dyc/internal/logger"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"gproxy/internal/logger"
 	"sync"
 )
 
 var DB *gorm.DB
 var DB_ONCE sync.Once
 
-func NewDB(dsn string){
+func NewDB(dsn string) {
 	DB_ONCE.Do(func() {
 		// videos_t
 		var err error
@@ -25,6 +25,6 @@ func NewDB(dsn string){
 	})
 }
 
-func Close()  {
+func Close() {
 	_ = DB.Close()
 }

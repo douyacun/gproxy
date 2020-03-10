@@ -1,8 +1,8 @@
 package commands
 
 import (
-	"dyc/internal/initialize"
 	"github.com/urfave/cli"
+	"gproxy/internal/initialize"
 )
 
 var Start = cli.Command{

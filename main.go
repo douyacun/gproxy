@@ -1,8 +1,8 @@
 package main
 
 import (
-	"dyc/internal/commands"
 	"github.com/urfave/cli"
+	"gproxy/internal/commands"
 	"log"
 	"os"
 )

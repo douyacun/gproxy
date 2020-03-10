@@ -3,12 +3,12 @@ package initialize
 import (
 	"bytes"
 	"context"
-	"dyc/internal/controllers"
-	"dyc/internal/derror"
-	"dyc/internal/logger"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
+	"gproxy/internal/controllers"
+	"gproxy/internal/derror"
+	"gproxy/internal/logger"
 	"io"
 	"net"
 	"net/http"
@@ -22,7 +22,7 @@ import (
 func Server() {
 	var (
 		engine *gin.Engine
-		err error
+		err    error
 	)
 	// 日志
 	logger.NewLogger(GetLogFD())
@@ -51,7 +51,7 @@ func Server() {
 	<-quit
 
 	// 关闭服务器
-	ctx, cancel := context.WithTimeout(context.Background(), 5 * time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	if err := server.Shutdown(ctx); err != nil {
 		logger.Fatal("web server close failed: %s", err)
@@ -91,8 +91,8 @@ func recoverWithWrite(out io.Writer) gin.HandlerFunc {
 					default:
 						buf := new(bytes.Buffer) // the returned data
 						err := errors.WithStack(err.(error))
-						fmt.Fprintf(buf,"%+v", err)
-						logger.Errorf("[Recovery] panic recovered:\n%s\n%s", strings.Join(headers, "\r\n"),  buf.String())
+						fmt.Fprintf(buf, "%+v", err)
+						logger.Errorf("[Recovery] panic recovered:\n%s\n%s", strings.Join(headers, "\r\n"), buf.String())
 						c.JSON(http.StatusInternalServerError, gin.H{"msg": "服务器出错了", "code": http.StatusInternalServerError})
 					}
 				}
