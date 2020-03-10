@@ -83,7 +83,7 @@ func (*_proxy) Request(ctx *gin.Context) {
 		ctx.JSON(400, err.Error())
 		return
 	}
-	req, err := http.NewRequest("post", b.Url, strings.NewReader(b.Body))
+	req, err := http.NewRequest(b.Method, b.Url, strings.NewReader(b.Body))
 	if err != nil {
 		ctx.JSON(500, err.Error())
 		return
