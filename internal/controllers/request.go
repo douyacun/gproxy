@@ -93,7 +93,7 @@ func (*_proxy) Request(ctx *gin.Context) {
 	for k, v := range b.Header {
 		req.Header.Set(k, v)
 	}
-	var transport *http.Transport
+	var transport http.RoundTripper
 	if b.SkipVerify {
 		transport = &http.Transport{
 			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
