@@ -21,11 +21,12 @@ type Data struct {
 }
 
 type PostRequest struct {
-	Url     string            `json:"url"`
-	Method  string            `json:"method"`
-	Body    string            `json:"body"`
-	Header  map[string]string `json:"header"`
-	Timeout int               `json:"timeout"`
+	Url        string            `json:"url"`
+	Method     string            `json:"method"`
+	Body       string            `json:"body"`
+	Header     map[string]string `json:"header"`
+	Timeout    int               `json:"timeout"`
+	SkipVerify bool              `json:"skip_verify"`
 }
 
 // Render (Data) writes data with custom ContentType.
@@ -92,10 +93,16 @@ func (*_proxy) Request(ctx *gin.Context) {
 	for k, v := range b.Header {
 		req.Header.Set(k, v)
 	}
-	client := http.Client{
-		Transport: &http.Transport{
+	var transport *http.Transport
+	if b.SkipVerify {
+		transport = &http.Transport{
 			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-		},
+		}
+	} else {
+		transport = nil
+	}
+	client := &http.Client{
+		Transport: transport,
 		Timeout: time.Duration(b.Timeout),
 	}
 	resp, err := client.Do(req)
