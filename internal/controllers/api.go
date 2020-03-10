@@ -9,5 +9,6 @@ func NewRouter(router *gin.Engine) {
 	router.GET("/ping", func(c *gin.Context) {
 		c.String(http.StatusOK, "OK")
 	})
-	router.POST("/github/post", Github.Post)
+	router.POST("/request", Proxy.Request)
+	router.GET("/file", Proxy.File)
 }
