@@ -94,7 +94,7 @@ func (*_proxy) Request(ctx *gin.Context) {
 	}
 	req, err := http.NewRequest(b.Method, b.Url, &buf)
 	if err != nil {
-		ctx.JSON(500, err.Error())
+		ctx.String(http.StatusInternalServerError, fmt.Sprintf("http request init error: %s", err.Error()))
 		return
 	}
 	logger.Infof("request: \nmethod: %s\nurl: %s\nheader: %v\nbody: %s", b.Method, b.Url, b.Header, b.Body)
@@ -115,7 +115,7 @@ func (*_proxy) Request(ctx *gin.Context) {
 	}
 	resp, err := client.Do(req)
 	if err != nil {
-		ctx.String(500, err.Error())
+		ctx.String(http.StatusInternalServerError, fmt.Sprintf("http request error: %s", err.Error()))
 		return
 	}
 	res, _ := ioutil.ReadAll(resp.Body)
