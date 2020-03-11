@@ -28,7 +28,7 @@ type PostRequest struct {
 	Method     string            `json:"method"`
 	Body       interface{}       `json:"body"`
 	Header     map[string]string `json:"header"`
-	Timeout    int               `json:"timeout"`
+	Timeout    int64             `json:"timeout"`
 	SkipVerify bool              `json:"skip_verify"`
 }
 
