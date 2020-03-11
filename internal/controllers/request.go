@@ -92,7 +92,7 @@ func (*_proxy) Request(ctx *gin.Context) {
 		ctx.String(http.StatusBadRequest, fmt.Sprintf("request params body json encode error: %s", err.Error()))
 		return
 	}
-	req, err := http.NewRequest(b.Method, b.Url, &buf)
+	req, err := http.NewRequest(strings.ToUpper(b.Method), b.Url, &buf)
 	if err != nil {
 		ctx.String(http.StatusInternalServerError, fmt.Sprintf("http request init error: %s", err.Error()))
 		return
