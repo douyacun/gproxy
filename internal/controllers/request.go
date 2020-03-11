@@ -1,7 +1,10 @@
 package controllers
 
 import (
+	"bytes"
 	"crypto/tls"
+	"encoding/json"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"gproxy/internal/logger"
 	"io/ioutil"
@@ -23,7 +26,7 @@ type Data struct {
 type PostRequest struct {
 	Url        string            `json:"url"`
 	Method     string            `json:"method"`
-	Body       string            `json:"body"`
+	Body       interface{}       `json:"body"`
 	Header     map[string]string `json:"header"`
 	Timeout    int               `json:"timeout"`
 	SkipVerify bool              `json:"skip_verify"`
@@ -81,10 +84,15 @@ func (*_proxy) File(ctx *gin.Context) {
 func (*_proxy) Request(ctx *gin.Context) {
 	var b PostRequest
 	if err := ctx.ShouldBindJSON(&b); err != nil {
-		ctx.JSON(400, err.Error())
+		ctx.String(http.StatusBadRequest, fmt.Sprintf("request params parse error: %s", err.Error()))
 		return
 	}
-	req, err := http.NewRequest(b.Method, b.Url, strings.NewReader(b.Body))
+	var buf bytes.Buffer
+	if err := json.NewEncoder(&buf).Encode(b.Body); err != nil {
+		ctx.String(http.StatusBadRequest, fmt.Sprintf("request params body json encode error: %s", err.Error()))
+		return
+	}
+	req, err := http.NewRequest(b.Method, b.Url, &buf)
 	if err != nil {
 		ctx.JSON(500, err.Error())
 		return
@@ -103,7 +111,7 @@ func (*_proxy) Request(ctx *gin.Context) {
 	}
 	client := &http.Client{
 		Transport: transport,
-		Timeout: time.Duration(b.Timeout),
+		Timeout:   time.Duration(b.Timeout),
 	}
 	resp, err := client.Do(req)
 	if err != nil {

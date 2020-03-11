@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
+	"gproxy/internal/config"
 	"gproxy/internal/controllers"
 	"gproxy/internal/derror"
 	"gproxy/internal/logger"
@@ -25,14 +26,14 @@ func Server() {
 		err    error
 	)
 	// 日志
-	logger.NewLogger(GetLogFD())
+	logger.NewLogger(config.GetLogFD())
 	// 启动gin
 	engine = gin.New()
-	engine.Use(recoverWithWrite(GetLogFD()))
+	engine.Use(recoverWithWrite(config.GetLogFD()))
 
 	// 路由
 	controllers.NewRouter(engine)
-	port := GetKey("server::port").String()
+	port := config.GetKey("server::port").String()
 	server := http.Server{
 		Addr:     port,
 		Handler:  engine,
